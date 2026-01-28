@@ -1,5 +1,5 @@
 {
-  "name": "linear-cli",
+  "name": "linear-cli-agents",
   "version": "0.1.0",
   "description": "CLI for interacting with Linear, designed for LLMs and agents",
   "author": "Nacho",
