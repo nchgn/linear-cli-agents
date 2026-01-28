@@ -81,7 +81,7 @@ export default class TeamsList extends Command {
 
       const data: TeamData[] = await Promise.all(
         teams.nodes.map(async (team) => {
-          const issues = await team.issues({first: 0})
+          const issues = await team.issues({first: 1})
           return {
             id: team.id,
             key: team.key,
