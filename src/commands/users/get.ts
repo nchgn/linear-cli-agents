@@ -47,7 +47,7 @@ export default class UsersGet extends Command {
       }
 
       // Fetch assigned issues count
-      const assignedIssues = await user.assignedIssues({first: 0})
+      const assignedIssues = await user.assignedIssues({first: 1})
       const teams = await user.teams()
 
       const data = {

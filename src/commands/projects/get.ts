@@ -44,7 +44,7 @@ export default class ProjectsGet extends Command {
       const [lead, teams, issues, milestones] = await Promise.all([
         project.lead,
         project.teams(),
-        project.issues({first: 0}),
+        project.issues({first: 1}),
         project.projectMilestones(),
       ])
 
