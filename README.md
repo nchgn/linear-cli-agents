@@ -9,8 +9,11 @@ A CLI for interacting with [Linear](https://linear.app), designed for LLMs and a
 ## Features
 
 - **JSON output**: All commands return structured JSON, perfect for parsing by LLMs
+- **Multiple formats**: JSON (default), table (colored), or plain text output
 - **Schema introspection**: Discover available operations programmatically
 - **Full CRUD for issues**: List, create, update, and delete issues
+- **Team management**: List and browse teams
+- **Browser integration**: Open issues, teams, inbox directly in Linear
 - **Raw GraphQL queries**: Execute any GraphQL query directly
 
 ## Installation
@@ -23,9 +26,10 @@ pnpm add -g linear-cli-agents
 
 ## Authentication
 
-Get your API key from [Linear Settings > API](https://linear.app/settings/api).
-
 ```bash
+# Open Linear API settings in browser to create a key
+linear auth login --browser
+
 # Login with API key
 linear auth login --key lin_api_xxxxx
 
@@ -34,6 +38,9 @@ export LINEAR_API_KEY=lin_api_xxxxx
 
 # Check auth status
 linear auth status
+
+# View current user info
+linear me
 
 # Logout
 linear auth logout
@@ -53,8 +60,13 @@ linear issues list --assignee me
 linear issues list --state "In Progress"
 linear issues list --filter '{"priority":{"lte":2}}'
 
+# Output formats: json (default), table (colored), plain (IDs only)
+linear issues list --format table
+linear issues list --format plain
+
 # Get a specific issue
 linear issues get ENG-123
+linear issues get ENG-123 --format table
 
 # Create an issue
 linear issues create --title "Bug fix" --team-id <team-id>
@@ -66,6 +78,46 @@ linear issues update ENG-123 --state-id <state-id> --assignee-id <user-id>
 
 # Delete an issue (moves to trash)
 linear issues delete ENG-123
+```
+
+### Teams
+
+```bash
+# List all teams
+linear teams list
+
+# With table format
+linear teams list --format table
+```
+
+### Open in Browser
+
+```bash
+# Open an issue
+linear open ENG-123
+
+# Open a team
+linear open --team ENG
+
+# Open inbox
+linear open --inbox
+
+# Open my issues
+linear open --my-issues
+
+# Open settings
+linear open --settings
+```
+
+### User Info
+
+```bash
+# Show current user
+linear me
+linear whoami
+
+# With table format
+linear me --format table
 ```
 
 ### Schema Introspection (for LLMs)
@@ -97,7 +149,9 @@ linear query --gql "query(\$id: String!) { issue(id: \$id) { title } }" \
 
 ## Output Format
 
-All commands return structured JSON:
+### JSON (default)
+
+All commands return structured JSON by default, ideal for LLMs and scripts:
 
 ```json
 // Success
@@ -124,6 +178,37 @@ All commands return structured JSON:
     "message": "Issue ENG-123 not found"
   }
 }
+```
+
+### Table (human-readable)
+
+Use `--format table` for colored, human-readable output:
+
+```bash
+linear issues list --format table
+# ID        PRI     TITLE
+# ENG-123   High    Fix login bug
+# ENG-124   Medium  Add dark mode
+```
+
+### Plain (minimal)
+
+Use `--format plain` for minimal output (IDs/identifiers only):
+
+```bash
+linear issues list --format plain
+# ENG-123    Fix login bug
+# ENG-124    Add dark mode
+```
+
+### Disabling Colors
+
+Colors are automatically disabled when piping output. You can also disable them manually:
+
+```bash
+NO_COLOR=1 linear issues list --format table
+# or
+linear issues list --format table --no-color
 ```
 
 ## For LLM Integration
