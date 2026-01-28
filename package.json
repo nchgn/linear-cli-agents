@@ -66,14 +66,26 @@
       "labels": {
         "description": "Label management commands"
       },
+      "milestones": {
+        "description": "Project milestone commands"
+      },
+      "project-updates": {
+        "description": "Project update/status commands"
+      },
       "projects": {
         "description": "Project management commands"
+      },
+      "relations": {
+        "description": "Issue relation commands"
       },
       "states": {
         "description": "Workflow state commands"
       },
       "teams": {
         "description": "Team management commands"
+      },
+      "templates": {
+        "description": "Template management commands"
       },
       "users": {
         "description": "User management commands"
