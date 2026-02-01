@@ -269,6 +269,25 @@ linear states list
 linear states list --team ENG
 ```
 
+### Cycles (Sprints)
+
+```bash
+# List all cycles
+linear cycles list
+linear cycles list --team ENG
+
+# Filter by status
+linear cycles list --active      # Currently running
+linear cycles list --upcoming    # Future cycles
+linear cycles list --completed   # Past cycles
+
+# Get current cycle for a team
+linear cycles current --team ENG
+
+# Get cycle details
+linear cycles get CYCLE_ID
+```
+
 ### Users
 
 ```bash

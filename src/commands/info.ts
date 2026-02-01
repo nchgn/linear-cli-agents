@@ -475,6 +475,41 @@ const COMMANDS: Record<string, CommandDef> = {
     flags: {format: {type: 'string', options: ['json', 'table', 'plain'], default: 'json'}},
     examples: ['linear me'],
   },
+  // Cycles
+  'cycles list': {
+    description: 'List cycles (sprints)',
+    flags: {
+      format: {type: 'string', options: ['json', 'table', 'plain'], default: 'json'},
+      'team-id': {type: 'string', description: 'Filter by team ID'},
+      team: {type: 'string', description: 'Filter by team key (e.g., ENG)'},
+      active: {type: 'boolean', description: 'Show only active cycles'},
+      upcoming: {type: 'boolean', description: 'Show only upcoming cycles'},
+      completed: {type: 'boolean', description: 'Show only completed cycles'},
+      first: {type: 'number', description: 'Number of results'},
+    },
+    examples: [
+      'linear cycles list',
+      'linear cycles list --team ENG',
+      'linear cycles list --active',
+    ],
+  },
+  'cycles get': {
+    description: 'Get cycle (sprint) details',
+    args: {id: {description: 'Cycle ID', required: true}},
+    flags: {format: {type: 'string', options: ['json', 'table', 'plain'], default: 'json'}},
+    examples: ['linear cycles get CYCLE_ID'],
+  },
+  'cycles current': {
+    description: 'Get the current active cycle for a team',
+    flags: {
+      format: {type: 'string', options: ['json', 'table', 'plain'], default: 'json'},
+      'team-id': {type: 'string', description: 'Team ID'},
+      team: {type: 'string', description: 'Team key (e.g., ENG)'},
+    },
+    examples: ['linear cycles current --team ENG'],
+  },
+
+  // Other
   search: {
     description: 'Search for issues',
     args: {query: {description: 'Search query', required: true}},
@@ -555,6 +590,20 @@ const ENTITY_SCHEMAS = {
       targetDate: 'Target date',
       lead: 'Project lead',
       teams: 'Associated teams',
+    },
+  },
+  cycles: {
+    entity: 'cycles',
+    operations: ['list', 'get', 'current'],
+    description: 'Time-boxed iterations (sprints)',
+    fields: {
+      id: 'Unique identifier',
+      number: 'Cycle number',
+      name: 'Cycle name (optional)',
+      startsAt: 'Start date',
+      endsAt: 'End date',
+      progress: 'Completion progress (0-1)',
+      team: 'Associated team',
     },
   },
   teams: {
@@ -697,7 +746,7 @@ export default class Info extends Command {
 
       print(
         success({
-          version: '0.5.1',
+          version: '0.6.0',
           commands: compactCommands,
           configKeys: CONFIG_KEYS,
           note: 'Use "linear info" for full documentation with examples and workflows',
@@ -709,7 +758,7 @@ export default class Info extends Command {
     // Full documentation
     print(
       success({
-        version: '0.5.1',
+        version: '0.6.0',
         overview: {
           description: 'CLI for interacting with Linear, designed for LLMs and agents',
           authentication: 'Run "linear auth login" or set LINEAR_API_KEY environment variable',

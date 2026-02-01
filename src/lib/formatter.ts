@@ -197,6 +197,18 @@ export const truncate = (str: string | undefined | null, maxLength: number): str
 }
 
 /**
+ * Format progress as a percentage with color.
+ */
+export const formatProgress = (progress: number): string => {
+  const percent = Math.round(progress * 100)
+  if (percent >= 100) return colors.green(`${percent}%`)
+  if (percent >= 75) return colors.cyan(`${percent}%`)
+  if (percent >= 50) return colors.blue(`${percent}%`)
+  if (percent >= 25) return colors.yellow(`${percent}%`)
+  return colors.gray(`${percent}%`)
+}
+
+/**
  * Generic formatter that outputs data in the specified format.
  */
 export const formatOutput = <T extends Record<string, unknown>>(

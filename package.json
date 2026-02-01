@@ -1,6 +1,6 @@
 {
   "name": "linear-cli-agents",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "CLI for interacting with Linear, designed for LLMs and agents",
   "author": "Nacho",
   "bin": {
@@ -63,6 +63,9 @@
       },
       "config": {
         "description": "Configuration management commands"
+      },
+      "cycles": {
+        "description": "Cycle (sprint) management commands"
       },
       "issues": {
         "description": "Issue management commands"

@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2025-02-01
+
+### Added
+
+- `linear cycles list` - List cycles (sprints) with filters
+- `linear cycles get` - Get cycle details
+- `linear cycles current` - Get the current active cycle for a team
+- `formatProgress` utility for colored progress display
+
 ## [0.5.1] - 2025-02-01
 
 ### Changed
