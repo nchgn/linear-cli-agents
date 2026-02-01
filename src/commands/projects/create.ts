@@ -2,6 +2,7 @@ import {Command, Flags} from '@oclif/core'
 import {getClient} from '../../lib/client.js'
 import {success, print, printItem} from '../../lib/output.js'
 import {handleError, CliError, ErrorCodes} from '../../lib/errors.js'
+import {getDefaultTeamId} from '../../lib/config.js'
 import type {OutputFormat} from '../../lib/types.js'
 
 export default class ProjectsCreate extends Command {
@@ -35,8 +36,7 @@ export default class ProjectsCreate extends Command {
       options: ['planned', 'started', 'paused', 'completed', 'canceled'],
     }),
     'team-ids': Flags.string({
-      description: 'Team IDs (comma-separated)',
-      required: true,
+      description: 'Team IDs (comma-separated). Uses default team if not provided.',
     }),
     'lead-id': Flags.string({
       description: 'Lead user ID',
@@ -55,7 +55,20 @@ export default class ProjectsCreate extends Command {
       const format = flags.format as OutputFormat
       const client = getClient()
 
-      const teamIds = flags['team-ids'].split(',').map((id) => id.trim())
+      // Use provided team-ids or fall back to default
+      let teamIds: string[]
+      if (flags['team-ids']) {
+        teamIds = flags['team-ids'].split(',').map((id) => id.trim())
+      } else {
+        const defaultTeamId = getDefaultTeamId()
+        if (!defaultTeamId) {
+          throw new CliError(
+            ErrorCodes.MISSING_REQUIRED_FIELD,
+            'Team IDs required. Use --team-ids or configure default with "linear config set default-team-id TEAM_ID"',
+          )
+        }
+        teamIds = [defaultTeamId]
+      }
 
       const payload = await client.createProject({
         name: flags.name,

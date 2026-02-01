@@ -2,6 +2,7 @@ import {Command, Flags} from '@oclif/core'
 import {getClient} from '../../lib/client.js'
 import {success, print} from '../../lib/output.js'
 import {handleError, CliError, ErrorCodes} from '../../lib/errors.js'
+import {getDefaultTeamId} from '../../lib/config.js'
 import type {LinearDocument} from '@linear/sdk'
 
 type IssueCreateInput = LinearDocument.IssueCreateInput
@@ -73,13 +74,18 @@ export default class IssuesCreate extends Command {
           throw new CliError(ErrorCodes.MISSING_REQUIRED_FIELD, 'Title is required. Use --title or --input')
         }
 
-        if (!flags['team-id']) {
-          throw new CliError(ErrorCodes.MISSING_REQUIRED_FIELD, 'Team ID is required. Use --team-id or --input')
+        // Use provided team-id or fall back to default
+        const teamId = flags['team-id'] ?? getDefaultTeamId()
+        if (!teamId) {
+          throw new CliError(
+            ErrorCodes.MISSING_REQUIRED_FIELD,
+            'Team ID is required. Use --team-id, --input, or configure default with "linear config set default-team-id TEAM_ID"',
+          )
         }
 
         input = {
           title: flags.title,
-          teamId: flags['team-id'],
+          teamId,
         }
 
         if (flags.description) input.description = flags.description

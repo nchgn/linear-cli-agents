@@ -1,6 +1,6 @@
 {
   "name": "linear-cli-agents",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "CLI for interacting with Linear, designed for LLMs and agents",
   "author": "Nacho",
   "bin": {
@@ -20,6 +20,7 @@
   "files": [
     "/bin",
     "/dist",
+    "/scripts",
     "/oclif.manifest.json"
   ],
   "dependencies": {
@@ -60,6 +61,9 @@
       "comments": {
         "description": "Comment management commands"
       },
+      "config": {
+        "description": "Configuration management commands"
+      },
       "issues": {
         "description": "Issue management commands"
       },
@@ -93,6 +97,7 @@
     }
   },
   "scripts": {
+    "postinstall": "node scripts/postinstall.js || true",
     "build": "shx rm -rf dist && tsc -b",
     "lint": "eslint . && tsc --noEmit",
     "lint:fix": "eslint . --fix",

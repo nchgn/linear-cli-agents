@@ -41,7 +41,14 @@ export interface ErrorResponse {
 export type CommandResponse<T> = SuccessResponse<T> | ErrorResponse
 export type CommandListResponse<T> = SuccessListResponse<T> | ErrorResponse
 
+export interface ConfigDefaults {
+  teamId?: string
+  teamKey?: string
+}
+
 export interface ConfigFile {
   apiKey?: string
+  defaults?: ConfigDefaults
+  /** @deprecated Use defaults.teamId instead */
   defaultTeamId?: string
 }
