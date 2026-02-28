@@ -47,6 +47,10 @@ export default class ProjectsCreate extends Command {
     'target-date': Flags.string({
       description: 'Target date (YYYY-MM-DD)',
     }),
+    content: Flags.string({
+      char: 'c',
+      description: 'Project content (markdown, for longer descriptions)',
+    }),
   }
 
   public async run(): Promise<void> {
@@ -79,6 +83,13 @@ export default class ProjectsCreate extends Command {
         startDate: flags['start-date'],
         targetDate: flags['target-date'],
       })
+
+      // Content is not in ProjectCreateInput, so we set it via update after creation
+      if (flags.content && payload.success && payload.project) {
+        const created = await payload.project
+        const contentInput: Record<string, unknown> = {content: flags.content}
+        await client.updateProject(created.id, contentInput)
+      }
 
       if (!payload.success || !payload.project) {
         throw new CliError(ErrorCodes.API_ERROR, 'Failed to create project')

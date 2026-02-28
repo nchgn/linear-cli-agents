@@ -49,6 +49,10 @@ export default class ProjectsUpdate extends Command {
     'target-date': Flags.string({
       description: 'Target date (YYYY-MM-DD)',
     }),
+    content: Flags.string({
+      char: 'c',
+      description: 'Project content (markdown, for longer descriptions)',
+    }),
   }
 
   public async run(): Promise<void> {
@@ -60,6 +64,7 @@ export default class ProjectsUpdate extends Command {
       const input: Record<string, unknown> = {}
       if (flags.name) input.name = flags.name
       if (flags.description) input.description = flags.description
+      if (flags.content) input.content = flags.content
       if (flags.state) input.state = flags.state
       if (flags['lead-id']) input.leadId = flags['lead-id']
       if (flags['start-date']) input.startDate = flags['start-date']
@@ -82,6 +87,7 @@ export default class ProjectsUpdate extends Command {
         id: project.id,
         name: project.name,
         description: project.description,
+        content: project.content,
         state: project.state,
         progress: project.progress,
         startDate: project.startDate,

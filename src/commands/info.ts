@@ -189,7 +189,8 @@ const COMMANDS: Record<string, CommandDef> = {
     description: 'Create a project',
     flags: {
       name: {type: 'string', char: 'n', description: 'Project name', required: true},
-      description: {type: 'string', char: 'd', description: 'Project description'},
+      description: {type: 'string', char: 'd', description: 'Project description (short subtitle)'},
+      content: {type: 'string', char: 'c', description: 'Project content (markdown, long-form description body)'},
       state: {type: 'string', options: ['planned', 'started', 'paused', 'completed', 'canceled']},
       'team-ids': {type: 'string', description: 'Team IDs (uses default if configured)'},
       'lead-id': {type: 'string', description: 'Lead user ID'},
@@ -206,10 +207,17 @@ const COMMANDS: Record<string, CommandDef> = {
     args: {id: {description: 'Project ID', required: true}},
     flags: {
       name: {type: 'string', description: 'New name'},
-      description: {type: 'string', description: 'New description'},
+      description: {type: 'string', description: 'New description (short subtitle)'},
+      content: {type: 'string', char: 'c', description: 'New content (markdown, long-form description body)'},
       state: {type: 'string', options: ['planned', 'started', 'paused', 'completed', 'canceled']},
+      'lead-id': {type: 'string', description: 'Lead user ID'},
+      'start-date': {type: 'string', description: 'Start date (YYYY-MM-DD)'},
+      'target-date': {type: 'string', description: 'Target date (YYYY-MM-DD)'},
     },
-    examples: ['linear projects update PROJECT_ID --name "New Name"'],
+    examples: [
+      'linear projects update PROJECT_ID --name "New Name"',
+      'linear projects update PROJECT_ID --content "# Plan\\nDetailed markdown content"',
+    ],
   },
   'projects delete': {
     description: 'Delete a project',
@@ -715,7 +723,8 @@ const ENTITY_SCHEMAS = {
     fields: {
       id: 'Unique identifier',
       name: 'Project name',
-      description: 'Project description',
+      description: 'Short description (subtitle)',
+      content: 'Long-form markdown description body',
       state: 'planned/started/paused/completed/canceled',
       progress: 'Completion percentage',
       startDate: 'Start date',
