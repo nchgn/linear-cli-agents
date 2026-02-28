@@ -25,10 +25,7 @@ ${LINEAR_CLI_SECTION_END}`
 export default class Setup extends Command {
   static override description = 'Add Linear CLI instructions to your CLAUDE.md'
 
-  static override examples = [
-    '<%= config.bin %> setup',
-    '<%= config.bin %> setup --remove',
-  ]
+  static override examples = ['<%= config.bin %> setup', '<%= config.bin %> setup --remove']
 
   static override flags = {
     remove: Flags.boolean({
@@ -55,52 +52,54 @@ export default class Setup extends Command {
 
       if (flags.remove) {
         if (!hasSection) {
-          print(success({
-            action: 'none',
-            message: 'Linear CLI section not found in CLAUDE.md',
-            path: CLAUDE_MD_PATH,
-          }))
+          print(
+            success({
+              action: 'none',
+              message: 'Linear CLI section not found in CLAUDE.md',
+              path: CLAUDE_MD_PATH,
+            }),
+          )
           return
         }
 
-        const regex = new RegExp(
-          `\\n?${LINEAR_CLI_SECTION_START}[\\s\\S]*?${LINEAR_CLI_SECTION_END}\\n?`,
-          'g',
-        )
+        const regex = new RegExp(`\\n?${LINEAR_CLI_SECTION_START}[\\s\\S]*?${LINEAR_CLI_SECTION_END}\\n?`, 'g')
         content = content.replace(regex, '\n').trim() + '\n'
         writeFileSync(CLAUDE_MD_PATH, content, 'utf-8')
 
-        print(success({
-          action: 'removed',
-          message: 'Linear CLI section removed from CLAUDE.md',
-          path: CLAUDE_MD_PATH,
-        }))
+        print(
+          success({
+            action: 'removed',
+            message: 'Linear CLI section removed from CLAUDE.md',
+            path: CLAUDE_MD_PATH,
+          }),
+        )
         return
       }
 
       if (hasSection) {
-        const regex = new RegExp(
-          `${LINEAR_CLI_SECTION_START}[\\s\\S]*?${LINEAR_CLI_SECTION_END}`,
-          'g',
-        )
+        const regex = new RegExp(`${LINEAR_CLI_SECTION_START}[\\s\\S]*?${LINEAR_CLI_SECTION_END}`, 'g')
         content = content.replace(regex, LINEAR_CLI_DOCS)
         writeFileSync(CLAUDE_MD_PATH, content, 'utf-8')
 
-        print(success({
-          action: 'updated',
-          message: 'Linear CLI section updated in CLAUDE.md',
-          path: CLAUDE_MD_PATH,
-        }))
+        print(
+          success({
+            action: 'updated',
+            message: 'Linear CLI section updated in CLAUDE.md',
+            path: CLAUDE_MD_PATH,
+          }),
+        )
       } else {
         const separator = content.length > 0 && !content.endsWith('\n\n') ? '\n\n' : ''
         content = content + separator + LINEAR_CLI_DOCS + '\n'
         writeFileSync(CLAUDE_MD_PATH, content, 'utf-8')
 
-        print(success({
-          action: 'added',
-          message: 'Linear CLI section added to CLAUDE.md',
-          path: CLAUDE_MD_PATH,
-        }))
+        print(
+          success({
+            action: 'added',
+            message: 'Linear CLI section added to CLAUDE.md',
+            path: CLAUDE_MD_PATH,
+          }),
+        )
       }
     } catch (err) {
       handleError(err)

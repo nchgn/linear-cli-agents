@@ -86,10 +86,7 @@ export default class IssuesBulkLabel extends Command {
             const labelsToRemove = removeLabelIds.filter((id) => existingLabelIds.includes(id))
 
             // Build new label array
-            const newLabelIds = [
-              ...existingLabelIds.filter((id) => !removeLabelIds.includes(id)),
-              ...labelsToAdd,
-            ]
+            const newLabelIds = [...existingLabelIds.filter((id) => !removeLabelIds.includes(id)), ...labelsToAdd]
 
             // Update the issue
             const payload = await client.updateIssue(issueId, {

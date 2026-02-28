@@ -509,10 +509,7 @@ const COMMANDS: Record<string, CommandDef> = {
       status: {type: 'string', options: ['Planned', 'Active', 'Completed'], description: 'Filter by status'},
       first: {type: 'number', description: 'Number of results'},
     },
-    examples: [
-      'linear initiatives list',
-      'linear initiatives list --status Active',
-    ],
+    examples: ['linear initiatives list', 'linear initiatives list --status Active'],
   },
   'initiatives get': {
     description: 'Get initiative details',
@@ -565,10 +562,7 @@ const COMMANDS: Record<string, CommandDef> = {
     flags: {
       unarchive: {type: 'boolean', char: 'u', description: 'Unarchive instead of archive'},
     },
-    examples: [
-      'linear initiatives archive INITIATIVE_ID',
-      'linear initiatives archive INITIATIVE_ID --unarchive',
-    ],
+    examples: ['linear initiatives archive INITIATIVE_ID', 'linear initiatives archive INITIATIVE_ID --unarchive'],
   },
 
   // Config
@@ -579,10 +573,7 @@ const COMMANDS: Record<string, CommandDef> = {
       value: {description: 'Config value', required: true},
     },
     flags: {},
-    examples: [
-      'linear config set default-team-id TEAM_UUID',
-      'linear config set default-team-key MITO',
-    ],
+    examples: ['linear config set default-team-id TEAM_UUID', 'linear config set default-team-key MITO'],
   },
   'config get': {
     description: 'Get a configuration value',
@@ -614,11 +605,7 @@ const COMMANDS: Record<string, CommandDef> = {
       completed: {type: 'boolean', description: 'Show only completed cycles'},
       first: {type: 'number', description: 'Number of results'},
     },
-    examples: [
-      'linear cycles list',
-      'linear cycles list --team ENG',
-      'linear cycles list --active',
-    ],
+    examples: ['linear cycles list', 'linear cycles list --team ENG', 'linear cycles list --active'],
   },
   'cycles get': {
     description: 'Get cycle (sprint) details',
@@ -701,7 +688,18 @@ const COMMANDS: Record<string, CommandDef> = {
 const ENTITY_SCHEMAS = {
   issues: {
     entity: 'issues',
-    operations: ['list', 'get', 'create', 'update', 'delete', 'archive', 'add-labels', 'remove-labels', 'bulk-update', 'bulk-label'],
+    operations: [
+      'list',
+      'get',
+      'create',
+      'update',
+      'delete',
+      'archive',
+      'add-labels',
+      'remove-labels',
+      'bulk-update',
+      'bulk-label',
+    ],
     description: 'Work items (bugs, features, tasks)',
     fields: {
       id: 'Unique identifier',

@@ -36,10 +36,7 @@ export default class InitiativesArchive extends Command {
         : await client.archiveInitiative(args.id)
 
       if (!payload.success) {
-        throw new CliError(
-          ErrorCodes.API_ERROR,
-          `Failed to ${flags.unarchive ? 'unarchive' : 'archive'} initiative`,
-        )
+        throw new CliError(ErrorCodes.API_ERROR, `Failed to ${flags.unarchive ? 'unarchive' : 'archive'} initiative`)
       }
 
       print(

@@ -107,10 +107,7 @@ export default class Upload extends Command {
       })
 
       if (!response.ok) {
-        throw new CliError(
-          ErrorCodes.API_ERROR,
-          `Upload failed: ${response.status} ${response.statusText}`,
-        )
+        throw new CliError(ErrorCodes.API_ERROR, `Upload failed: ${response.status} ${response.statusText}`)
       }
 
       if (flags.markdown) {
